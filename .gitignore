@@ -1,0 +1,4 @@
+logs/
+work/
+modelsim.ini
+vsim_stacktrace.vstf
