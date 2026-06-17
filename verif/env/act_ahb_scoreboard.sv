@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_SCOREBOARD
+`define ACT_AHB_SCOREBOARD
+
 class act_ahb_scoreboard extends uvm_component;
 
   `uvm_component_utils(act_ahb_scoreboard)
@@ -7,3 +10,4 @@ class act_ahb_scoreboard extends uvm_component;
   endfunction
 
 endclass : act_ahb_scoreboard
+`endif // ACT_AHB_SCOREBOARD

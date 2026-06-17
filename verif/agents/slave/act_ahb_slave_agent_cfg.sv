@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_SLAVE_AGENT_CFG
+`define ACT_AHB_SLAVE_AGENT_CFG
+
 class act_ahb_slave_agent_cfg extends uvm_object;
 
   `uvm_object_utils(act_ahb_slave_agent_cfg)
@@ -37,3 +40,4 @@ class act_ahb_slave_agent_cfg extends uvm_object;
   endfunction : new
 
 endclass : act_ahb_slave_agent_cfg
+`endif // ACT_AHB_SLAVE_AGENT_CFG

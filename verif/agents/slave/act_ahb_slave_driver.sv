@@ -1,4 +1,7 @@
-class act_ahb_slave_driver extends uvm_driver;
+`ifndef ACT_AHB_SLAVE_DRIVER
+`define ACT_AHB_SLAVE_DRIVER
+
+class act_ahb_slave_driver extends uvm_driver#(act_ahb_seq_item);
 
   `uvm_component_utils(act_ahb_slave_driver)
 
@@ -16,3 +19,4 @@ class act_ahb_slave_driver extends uvm_driver;
   endfunction
 
 endclass : act_ahb_slave_driver
+`endif // ACT_AHB_SLAVE_DRIVER

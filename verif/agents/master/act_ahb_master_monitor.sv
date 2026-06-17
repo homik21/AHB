@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_MASTER_MONITOR
+`define ACT_AHB_MASTER_MONITOR
+
 class act_ahb_master_monitor extends uvm_monitor;
 
   `uvm_component_utils(act_ahb_master_monitor)
@@ -15,3 +18,4 @@ class act_ahb_master_monitor extends uvm_monitor;
   endfunction
 
 endclass : act_ahb_master_monitor
+`endif // ACT_AHB_MASTER_MONITOR

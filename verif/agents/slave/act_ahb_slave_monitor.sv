@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_SLAVE_MONITOR
+`define ACT_AHB_SLAVE_MONITOR
+
 class act_ahb_slave_monitor extends uvm_monitor;
 
   `uvm_component_utils(act_ahb_slave_monitor)
@@ -16,3 +19,4 @@ class act_ahb_slave_monitor extends uvm_monitor;
   endfunction
 
 endclass : act_ahb_slave_monitor
+`endif // ACT_AHB_SLAVE_MONITOR

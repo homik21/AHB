@@ -1,3 +1,6 @@
+`ifndef ACT_TB_TOP
+`define ACT_TB_TOP
+
 module act_tb_top;
 
   import uvm_pkg::*;
@@ -30,3 +33,4 @@ module act_tb_top;
   end
 
 endmodule
+`endif // ACT_TB_TOP

@@ -41,7 +41,8 @@ compile: dirs work
 	-sv \
 	-mfcu \
 	-timescale 1ns/1ps \
-	-f $(FILELIST)
+	-f $(FILELIST) \
+	-l $(LOG_DIR)/compile.log
 
 run: compile
 	@echo ""

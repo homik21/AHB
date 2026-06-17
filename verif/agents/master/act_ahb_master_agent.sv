@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_MASTER_AGENT
+`define ACT_AHB_MASTER_AGENT
+
 class act_ahb_master_agent extends uvm_agent;
 
   `uvm_component_utils(act_ahb_master_agent)
@@ -33,3 +36,4 @@ class act_ahb_master_agent extends uvm_agent;
   endfunction
 
 endclass : act_ahb_master_agent
+`endif // ACT_AHB_MASTER_AGENT

@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_VIRTUAL_SEQUENCER
+`define ACT_AHB_VIRTUAL_SEQUENCER
+
 class act_ahb_virtual_sequencer extends uvm_sequencer;
 
   `uvm_component_utils(act_ahb_virtual_sequencer)
@@ -10,3 +13,4 @@ class act_ahb_virtual_sequencer extends uvm_sequencer;
   endfunction
 
 endclass : act_ahb_virtual_sequencer
+`endif // ACT_AHB_VIRTUAL_SEQUENCER

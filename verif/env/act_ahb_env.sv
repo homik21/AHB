@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_ENV
+`define ACT_AHB_ENV
+
 class act_ahb_env extends uvm_env;
 
   `uvm_component_utils(act_ahb_env)
@@ -43,3 +46,4 @@ class act_ahb_env extends uvm_env;
   endfunction
 
 endclass : act_ahb_env
+`endif // ACT_AHB_ENV

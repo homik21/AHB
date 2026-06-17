@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_BASE_TEST
+`define ACT_AHB_BASE_TEST
+
 class act_ahb_base_test extends uvm_test;
 
   `uvm_component_utils(act_ahb_base_test)
@@ -7,6 +10,7 @@ class act_ahb_base_test extends uvm_test;
   act_ahb_env_cfg          env_cfg_h;
   act_ahb_master_agent_cfg master_cfg_h;
   act_ahb_slave_agent_cfg  slave_cfg_h;
+  act_ahb_base_seq seq_h;
 
   function new(string name = "act_ahb_base_test",uvm_component parent = null);
     super.new(name,parent);
@@ -31,4 +35,14 @@ class act_ahb_base_test extends uvm_test;
     uvm_top.print_topology();
   endfunction
 
+  task run_phase(uvm_phase phase);
+    phase.raise_objection(this);
+    seq_h = act_ahb_base_seq::type_id::create("seq_h");
+    `uvm_info(get_type_name(),"Starting sequence",UVM_NONE)
+    seq_h.start(env_h.master_agent_h.sequencer_h);
+    `uvm_info(get_type_name(),"Sequence completed",UVM_NONE)
+    phase.drop_objection(this);
+  endtask
+
 endclass : act_ahb_base_test
+`endif // ACT_AHB_BASE_TEST

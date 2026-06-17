@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_IF
+`define ACT_AHB_IF
+
 interface act_ahb_if#(parameter ADDR_WIDTH = 32,parameter DATA_WIDTH = 32) (input logic HCLK,input logic HRESETn);
 
 logic [ADDR_WIDTH-1:0] HADDR;
@@ -104,3 +107,4 @@ endclocking
         input HRESETn
     );
 endinterface
+`endif // ACT_AHB_IF

@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_MASTER_AGENT_CFG
+`define ACT_AHB_MASTER_AGENT_CFG
+
 class act_ahb_master_agent_cfg extends uvm_object;
 
   `uvm_object_utils(act_ahb_master_agent_cfg)
@@ -17,7 +20,6 @@ class act_ahb_master_agent_cfg extends uvm_object;
   function new(string name = "act_ahb_master_agent_cfg");
     super.new(name);
 
-    // Agent Mode
     is_active = UVM_ACTIVE;
 
     endianness = LITTLE_ENDIAN;
@@ -29,3 +31,4 @@ class act_ahb_master_agent_cfg extends uvm_object;
   endfunction : new
 
 endclass : act_ahb_master_agent_cfg
+`endif // ACT_AHB_MASTER_AGENT_CFG

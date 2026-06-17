@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_ENV_CFG
+`define ACT_AHB_ENV_CFG
+
 class act_ahb_env_cfg extends uvm_object;
 
   `uvm_object_utils(act_ahb_env_cfg)
@@ -23,3 +26,4 @@ class act_ahb_env_cfg extends uvm_object;
   endfunction
 
 endclass
+`endif // ACT_AHB_ENV_CFG

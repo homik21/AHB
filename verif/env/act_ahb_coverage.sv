@@ -1,3 +1,6 @@
+`ifndef ACT_AHB_COVERAGE
+`define ACT_AHB_COVERAGE
+
 class act_ahb_coverage extends uvm_component;
 
   `uvm_component_utils(act_ahb_coverage)
@@ -7,3 +10,4 @@ class act_ahb_coverage extends uvm_component;
   endfunction
 
 endclass : act_ahb_coverage
+`endif // ACT_AHB_COVERAGE
