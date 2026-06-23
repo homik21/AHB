@@ -5,13 +5,15 @@
 ### Compile
 
 ```bash
-make compile
+make compile SIM=questa
+make compile SIM=riviera
 ```
 
 ### Run
 
 ```bash
-make run
+make run SIM=questa
+make run SIM=riviera
 ```
 
 ### Help
@@ -24,4 +26,10 @@ make help
 
 ```bash
 make clean
+```
+
+### Note
+
+```bash
+Currently the Makefile is compatible to compile with riviera tool, but the code is incompatible to Riviera Tool, need to modify as per riviera guidelines that follows UVM lib source code
 ```
