@@ -2,3 +2,7 @@ logs/
 work/
 modelsim.ini
 vsim_stacktrace.vstf
+vish_stacktrace.vstf
+wave.do
+waves/
+transcript

@@ -41,6 +41,7 @@ class act_ahb_base_test extends uvm_test;
     `uvm_info(get_type_name(),"Starting sequence",UVM_NONE)
     seq_h.start(env_h.master_agent_h.sequencer_h);
     `uvm_info(get_type_name(),"Sequence completed",UVM_NONE)
+    #100;
     phase.drop_objection(this);
   endtask
 

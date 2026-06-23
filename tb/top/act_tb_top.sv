@@ -16,20 +16,17 @@ module act_tb_top;
 
   initial begin
     hresetn = 0;
-
     repeat(5)
       @(posedge hclk);
-
     hresetn = 1;
   end
 
-  act_ahb_if ahb_if_i(
-    .HCLK    (hclk),
-    .HRESETn (hresetn)
-  );
+  act_ahb_if vif(.HCLK(hclk),.HRESETn(hresetn));
 
   initial begin
-    run_test("act_ahb_base_test");
+    vif.HREADY = 1;
+    uvm_config_db#(virtual act_ahb_if)::set(null,"*","vif",vif);
+    run_test();
   end
 
 endmodule
