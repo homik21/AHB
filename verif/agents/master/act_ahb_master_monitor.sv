@@ -25,19 +25,24 @@ class act_ahb_master_monitor extends uvm_monitor;
 
   task run_phase(uvm_phase phase);
     act_ahb_seq_item tr;
+    int ct;
     forever begin
       wait_for_start_of_transfer();
       tr = act_ahb_seq_item::type_id::create("tr");
       collect_transfer(tr);
       `uvm_info(get_type_name(),$sformatf("Collected Transaction:\n%s",tr.sprint()),UVM_LOW)
-      ap.write(tr);
+      if(vif.HRESETn)begin
+        ct++;
+        ap.write(tr);
+        `uvm_info(get_type_name(),$sformatf("Transaction %0d sent to analysis port",ct),UVM_DEBUG)
+      end
     end
   endtask
 
   task wait_for_start_of_transfer();
     forever begin
       @(vif.master_mon_cb);
-      if(vif.master_mon_cb.HREADY && vif.master_mon_cb.HTRANS == AHB_NONSEQ)
+      if(vif.HRESETn && vif.master_mon_cb.HREADY && vif.master_mon_cb.HTRANS == AHB_NONSEQ)
         break;
     end
     `uvm_info(get_type_name(),
@@ -72,6 +77,10 @@ class act_ahb_master_monitor extends uvm_monitor;
         @(vif.master_mon_cb);
         while(!vif.master_mon_cb.HREADY)
           @(vif.master_mon_cb);
+          if(!vif.HRESETn) begin
+            `uvm_info(get_type_name(),"Reset detected. Dropping partial transaction",UVM_MEDIUM)
+            return;
+          end
         if(tr.write) begin
           tr.data_q[i] = vif.master_mon_cb.HWDATA;
           `uvm_info(get_type_name(),
@@ -92,6 +101,10 @@ class act_ahb_master_monitor extends uvm_monitor;
         @(vif.master_mon_cb);
         while(!vif.master_mon_cb.HREADY)
           @(vif.master_mon_cb);
+        if(!vif.HRESETn) begin
+          `uvm_info(get_type_name(),"Reset detected. Dropping partial transaction",UVM_MEDIUM)
+          return;
+        end
         if(tr.write)
           data_q_tmp.push_back(vif.master_mon_cb.HWDATA);
         else
