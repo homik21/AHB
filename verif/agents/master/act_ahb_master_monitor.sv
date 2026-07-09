@@ -81,17 +81,13 @@ class act_ahb_master_monitor extends uvm_monitor;
             `uvm_info(get_type_name(),"Reset detected. Dropping partial transaction",UVM_MEDIUM)
             return;
           end
-        if(tr.write) begin
-          tr.data_q[i] = vif.master_mon_cb.HWDATA;
-          `uvm_info(get_type_name(),
-                     $sformatf("WRITE DATA[%0d] = %0h",i,tr.data_q[i]),
-                     UVM_LOW)
-        end
+          if(tr.write) begin
+            tr.data_q[i] = vif.master_mon_cb.HWDATA;
+            `uvm_info(get_type_name(),$sformatf("WRITE DATA[%0d] = %0h",i,tr.data_q[i]),UVM_LOW)
+          end
         else begin
           tr.data_q[i] = vif.master_mon_cb.HRDATA;
-          `uvm_info(get_type_name(),
-                    $sformatf("READ DATA[%0d] = %0h",i,tr.data_q[i]),
-                    UVM_LOW)
+          `uvm_info(get_type_name(),$sformatf("READ DATA[%0d] = %0h",i,tr.data_q[i]),UVM_LOW)
         end
       end
     end
@@ -110,11 +106,7 @@ class act_ahb_master_monitor extends uvm_monitor;
         else
           data_q_tmp.push_back(vif.master_mon_cb.HRDATA);
           
-        `uvm_info(get_type_name(),
-                  $sformatf("INCR DATA[%0d] = %0h",
-                    data_q_tmp.size()-1,
-                    data_q_tmp[data_q_tmp.size()-1]),
-                  UVM_LOW)
+        `uvm_info(get_type_name(),$sformatf("INCR DATA[%0d] = %0h",data_q_tmp.size()-1,data_q_tmp[data_q_tmp.size()-1]),UVM_LOW)
         @(vif.master_mon_cb);
         if(vif.master_mon_cb.HREADY && (vif.master_mon_cb.HTRANS != AHB_SEQ))
           break;

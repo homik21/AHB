@@ -92,6 +92,8 @@ class act_ahb_master_driver extends uvm_driver #(act_ahb_seq_item);
     int unsigned addr_idx;
     int unsigned data_idx;
   
+    int insert_beat = -1;
+  
     bit [31:0] curr_addr;
   
     cycle_cnt = 0;
@@ -101,9 +103,15 @@ class act_ahb_master_driver extends uvm_driver #(act_ahb_seq_item);
     addr_idx  = 0;
     data_idx  = 0;
     pipe_log =
-  "\n-------------------------------------------------------------\n\
-  Cycle | HTRANS | Address      | Data\n\
-  -------------------------------------------------------------\n";
+               "\n-------------------------------------------------------------\n\
+               Cycle | HTRANS | Address      | Data\n\
+               -------------------------------------------------------------\n";
+
+  if(cfg_h.enable_idle_insertion || cfg_h.enable_busy_insertion)begin
+    insert_beat = $urandom_range(1, beats-1);
+    `uvm_info("AHB_PIPE",$sformatf("Inserting IDLE/BUSY at beat %0d",insert_beat),UVM_LOW)
+  end
+
     while(data_idx <= beats) begin
       @(vif.master_drv_cb);
       if(vif.master_drv_cb.HREADY) begin
@@ -115,13 +123,24 @@ class act_ahb_master_driver extends uvm_driver #(act_ahb_seq_item);
             (addr_idx == 0) ? AHB_NONSEQ : AHB_SEQ,
             1'b1
           );
-          curr_addr = calc_next_addr(curr_addr,tr.size);
-          addr_idx++;
+          // Insert only between beats
+          if(insert_beat == data_idx)begin
+            insert_idle_busy_if_required(
+              curr_addr,
+              tr.size,
+              tr.burst,
+              1'b1
+            );
+          end
+          else begin
+            curr_addr = calc_next_addr(curr_addr,tr.size);
+            addr_idx++;
+          end
         end
         else begin
           vif.master_drv_cb.HTRANS <= AHB_IDLE;
         end
-        if(data_idx > 0) begin
+        if(data_idx > 0 && insert_beat != data_idx) begin
           drive_data_phase(tr.data_q[data_idx-1]);
         end
         //for logging purpose
@@ -159,6 +178,14 @@ class act_ahb_master_driver extends uvm_driver #(act_ahb_seq_item);
                               (addr_idx == 0) ? AHB_NONSEQ : AHB_SEQ,
                               1'b0
                             );
+        if(addr_idx < beats)begin
+          insert_idle_busy_if_required(
+                              curr_addr,
+                              tr.size,
+                              tr.burst,
+                              1'b0
+          );
+        end
         curr_addr = calc_next_addr(curr_addr,tr.size);
         addr_idx++;
       end
@@ -210,6 +237,38 @@ class act_ahb_master_driver extends uvm_driver #(act_ahb_seq_item);
   function automatic bit [31:0] calc_next_addr(bit [31:0]  curr_addr,ahb_hsize_e size);
     return (curr_addr + get_bytes_per_beat(size));
   endfunction
+
+  task insert_idle_busy_if_required(
+                                     bit [31:0]   addr,
+                                     ahb_hsize_e  size,
+                                     ahb_hburst_e burst,
+                                     bit          write
+                                   );
+  int unsigned num_cycles;
+  // BUSY - higher priority 
+  if(cfg_h.enable_busy_insertion && ($urandom_range(99,0) < cfg_h.busy_probability)) begin
+    num_cycles = $urandom_range(cfg_h.busy_max_cycles,cfg_h.busy_min_cycles);
+    repeat(num_cycles) begin
+      @(vif.master_drv_cb);
+      while(!vif.master_drv_cb.HREADY)
+        @(vif.master_drv_cb);
+      vif.master_drv_cb.HTRANS <= AHB_BUSY;
+      vif.master_drv_cb.HADDR  <= addr;
+      `uvm_info("AHB_BUSY",$sformatf("Inserted BUSY cycle"),UVM_LOW)
+    end
+  end
+  else if(cfg_h.enable_idle_insertion && ($urandom_range(99,0) < cfg_h.idle_probability)) begin
+    num_cycles = $urandom_range(cfg_h.idle_max_cycles,cfg_h.idle_min_cycles);
+    `uvm_info("AHB_IDLE",$sformatf("Inserting %0d IDLE cycles",num_cycles),UVM_LOW)
+    repeat(num_cycles) begin
+      @(vif.master_drv_cb);
+      while(!vif.master_drv_cb.HREADY)
+        @(vif.master_drv_cb);
+      vif.master_drv_cb.HTRANS <= AHB_IDLE;
+      `uvm_info("AHB_IDLE",$sformatf("Inserted IDLE cycle"),UVM_LOW)
+    end
+  end
+endtask
 
 endclass : act_ahb_master_driver
 

@@ -11,10 +11,17 @@ class act_ahb_master_agent_cfg extends uvm_object;
 
   bit enable_idle_insertion;
   bit enable_busy_insertion;
-
-  int unsigned max_idle_cycles;
-  int unsigned max_busy_cycles;
-
+  
+  // Idle configuration
+  int unsigned idle_min_cycles;
+  int unsigned idle_max_cycles;
+  int unsigned idle_probability;   
+  
+  // Busy configuration
+  int unsigned busy_min_cycles;
+  int unsigned busy_max_cycles;
+  int unsigned busy_probability;   
+  
   bit enable_error_injection;
 
   function new(string name = "act_ahb_master_agent_cfg");

@@ -18,7 +18,6 @@ class act_ahb_base_test extends uvm_test;
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-
     env_cfg_h =act_ahb_env_cfg::type_id::create("env_cfg_h");
     master_cfg_h =act_ahb_master_agent_cfg::type_id::create("master_cfg_h");
     slave_cfg_h =act_ahb_slave_agent_cfg::type_id::create("slave_cfg_h");

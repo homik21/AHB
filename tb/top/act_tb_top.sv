@@ -21,6 +21,15 @@ module act_tb_top;
     hresetn = 1;
   end
 
+  //mid sim reset
+  //initial
+  //  begin
+  //    #100ns;
+  //    hresetn = 0;
+  //    #45ns;
+  //    hresetn = 1;
+  //end
+
   act_ahb_if vif(.HCLK(hclk),.HRESETn(hresetn));
 
   initial begin

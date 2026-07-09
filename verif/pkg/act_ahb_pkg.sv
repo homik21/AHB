@@ -32,6 +32,7 @@ package act_ahb_pkg;
   `include "act_ahb_env.sv"
 
   `include "act_ahb_base_test.sv"
+  `include "act_ahb_idle_insert_test.sv"
 
 endpackage : act_ahb_pkg
 `endif // ACT_AHB_PKG
